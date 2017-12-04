@@ -1,0 +1,97 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "react-native-banner-lite",
+        "scope": null,
+        "escapedName": "react-native-banner-lite",
+        "name": "react-native-banner-lite",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/zhanghuan/ReactNativeProjects/rcshop-onreact"
+    ]
+  ],
+  "_cnpm_publish_time": 1479633518857,
+  "_from": "react-native-banner-lite@latest",
+  "_hasShrinkwrap": false,
+  "_id": "react-native-banner-lite@1.0.1",
+  "_inCache": true,
+  "_location": "/react-native-banner-lite",
+  "_nodeVersion": "5.12.0",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/react-native-banner-lite-1.0.1.tgz_1479633518625_0.4671689213719219"
+  },
+  "_npmUser": {
+    "name": "talisk",
+    "email": "talisk@talisk.cn"
+  },
+  "_npmVersion": "3.8.6",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "react-native-banner-lite",
+    "scope": null,
+    "escapedName": "react-native-banner-lite",
+    "name": "react-native-banner-lite",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npm.taobao.org/react-native-banner-lite/download/react-native-banner-lite-1.0.1.tgz",
+  "_shasum": "9be862980e9e97c9f9dcfeac630034142c9f16e7",
+  "_shrinkwrap": null,
+  "_spec": "react-native-banner-lite",
+  "_where": "/Users/zhanghuan/ReactNativeProjects/rcshop-onreact",
+  "author": {
+    "name": "talisk",
+    "email": "talisk@talisk.cn",
+    "url": "http://www.talisk.cn"
+  },
+  "bugs": {
+    "url": "https://github.com/talisk/react-native-banner-lite/issues",
+    "email": "talisk@talisk.cn"
+  },
+  "dependencies": {},
+  "description": "A banner component with adsorption for React Native. Compatible with iOS and Android.",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "9be862980e9e97c9f9dcfeac630034142c9f16e7",
+    "size": 5530,
+    "noattachment": false,
+    "tarball": "http://registry.npm.taobao.org/react-native-banner-lite/download/react-native-banner-lite-1.0.1.tgz"
+  },
+  "gitHead": "624d8b878de53e8a0faf20dd3d16da9052072b01",
+  "homepage": "https://github.com/talisk/react-native-banner-lite#readme",
+  "keywords": [
+    "react-native",
+    "banner",
+    "react-native-banner-lite"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "talisk",
+      "email": "talisk@talisk.cn"
+    }
+  ],
+  "name": "react-native-banner-lite",
+  "optionalDependencies": {},
+  "publish_time": 1479633518857,
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/talisk/react-native-banner-lite.git"
+  },
+  "scripts": {
+    "test": "echo \\\"Error: no test specified\\\" && exit 1"
+  },
+  "version": "1.0.1"
+}
