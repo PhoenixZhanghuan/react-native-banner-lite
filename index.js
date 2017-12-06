@@ -12,6 +12,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+import RCC from "../../app/model/RCConst";
 
 export default class DiscussBannerScrollView extends Component {
 
@@ -59,6 +60,8 @@ export default class DiscussBannerScrollView extends Component {
 				<BannerItem
 					key={"bannerItem"+i}
 					index={i}
+          allowStyle={this.props.allow}
+          videoCenterButtonStyle={this.props.videoCenterButton}
           mainTitleStyle={this.props.mainTitle}
           subTitleStyle={this.props.subTitle}
           imageStyle={this.props.image}
@@ -114,12 +117,24 @@ class BannerItem extends Component {
 				<Image
 	        style={this.props.imageStyle}
 	        source={{uri: this.props.imageURL}}
-	      />
+        >
+          <Image source={require("./images/small_arrow@2x.png")} style={this.props.allowStyle}/>
+          {this.renderCenterButton()}
+        </Image>
+
         <Text numberOfLines={1} style={this.props.mainTitleStyle}>{this.props.mainTitle}</Text>
         <Text numberOfLines={1} style={this.props.subTitleStyle}>{this.props.subTitle}</Text>
 			</TouchableOpacity>
 		);
 	}
+
+  renderCenterButton() {
+    return (
+      <TouchableOpacity activeOpacity = {0.8} style={this.props.videoCenterButtonStyle}>
+        <Image source={require("./images/cenerPlay@2x.png")} style={{width: RCC.Color.px(40),height: RCC.Color.px(40),backgroundColor: 'transparent'}}/>
+      </TouchableOpacity>
+    )
+  }
 }
 
 const itemStyles = StyleSheet.create({
