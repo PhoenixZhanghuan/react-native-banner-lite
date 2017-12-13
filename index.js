@@ -36,14 +36,14 @@ export default class DiscussBannerScrollView extends Component {
 	onScrollEndDrag = e => {
     const { contentOffset } = e.nativeEvent;
 
-    if (contentOffset.x < (this.state.items.length-1.8) * (260+15) && (this.state.items.length > 1)) {
+    if (contentOffset.x < (this.state.items.length) * (260+15) && (this.state.items.length > 1)) {
 	    if (contentOffset.x%(260+15) < (265+15)/2 ) {
 	    	this.refs.scrollView.scrollTo({x: contentOffset.x-contentOffset.x%(260+15), y: 0, animated: true});
 	    } else {
 	    	this.refs.scrollView.scrollTo({x: (contentOffset.x-contentOffset.x%(260+15))+(260+15), y: 0, animated: true});
 	    }
 	  } else {
-	  	if (contentOffset.x >= (this.state.items.length-1.8) * (260+15) && (this.state.items.length > 1)) {
+	  	if (contentOffset.x >= (this.state.items.length) * (260+15) && (this.state.items.length > 1)) {
 	  		this.refs.scrollView.scrollTo({x: (this.state.items.length*(260+15) - Dimensions.get('window').width)+15, y: 0, animated: true});
 	  	} else if (this.state.items.length <= 1) {
 	  		this.refs.scrollView.scrollTo({x: 0, y: 0, animated: true});
@@ -56,6 +56,11 @@ export default class DiscussBannerScrollView extends Component {
 		var bannerItems = [];
 
 		for (let i = 0; i < this.state.items.length; i++) {
+
+		  if(i === 3) {
+		    break;
+      }
+
 			bannerItems.push(
 				<BannerItem
 					key={"bannerItem"+i}
@@ -65,13 +70,27 @@ export default class DiscussBannerScrollView extends Component {
           mainTitleStyle={this.props.mainTitle}
           subTitleStyle={this.props.subTitle}
           imageStyle={this.props.image}
+          headStyle={this.props.headStyle}
+          category={this.props.category}
           mainTitle={this.state.items[i].title}
           subTitle={this.state.items[i].subtitle}
 					imageURL={this.state.items[i].imageURL}
+          head_url={this.props.items[i].head_url}
 					onPress={this.state.items[i].onPress}
+          onPressAvatar={this.state.items[i].onPressAvatar}
 				/>
 			);
 		}
+
+		if(this.state.items.length >= 3) {
+      bannerItems.push(
+        <TouchableOpacity onPress={() => this.props.onPressShowAll()}>
+          <Image source={require("./images/show_all@2x.png")} style={{width: 85, height: 195}}/>
+        </TouchableOpacity>
+      )
+    }
+
+    console.log("this.props.image", this.props.image);
 
 		if (bannerItems.length === 0) {
 			bannerItems.push(
@@ -91,6 +110,7 @@ export default class DiscussBannerScrollView extends Component {
 
 		return(
 			<ScrollView
+        style={this.props.style}
 				ref='scrollView'
 				centerContent={false}
 				onScrollEndDrag={this.onScrollEndDrag}
@@ -121,19 +141,34 @@ class BannerItem extends Component {
           <Image source={require("./images/small_arrow@2x.png")} style={this.props.allowStyle}/>
           {this.renderCenterButton()}
         </Image>
+        <View style={{flexDirection: "row"}}>
+          {this.renderHeadImage()}
+          <View>
+            <Text numberOfLines={1} style={this.props.mainTitleStyle}>{this.props.mainTitle}</Text>
+            <Text numberOfLines={1} style={this.props.subTitleStyle}>{this.props.subTitle}</Text>
+          </View>
+        </View>
 
-        <Text numberOfLines={1} style={this.props.mainTitleStyle}>{this.props.mainTitle}</Text>
-        <Text numberOfLines={1} style={this.props.subTitleStyle}>{this.props.subTitle}</Text>
 			</TouchableOpacity>
 		);
 	}
 
   renderCenterButton() {
     return (
-      <TouchableOpacity activeOpacity = {0.8} style={this.props.videoCenterButtonStyle}>
+      <TouchableOpacity activeOpacity = {0.8} style={this.props.videoCenterButtonStyle} onPress={() => this.props.onPress(this.props.index)}>
         <Image source={require("./images/cenerPlay@2x.png")} style={{width: RCC.Color.px(40),height: RCC.Color.px(40),backgroundColor: 'transparent'}}/>
       </TouchableOpacity>
     )
+  }
+
+  renderHeadImage() {
+	  if(this.props.category === "runner") {
+      return(
+        <TouchableOpacity onPress={() => this.props.onPressAvatar(this.props.index)}>
+          <Image source={this.props.head_url ? {uri: this.props.head_url} : require("./images/avator@2x.png")} style={this.props.headStyle}/>
+        </TouchableOpacity>
+      )
+    }
   }
 }
 
@@ -170,6 +205,5 @@ const itemStyles = StyleSheet.create({
 const scrollViewStyles = StyleSheet.create({
 	scrollView: {
 		flexDirection: 'row',
-		alignItems: 'center',
 	},
 });
