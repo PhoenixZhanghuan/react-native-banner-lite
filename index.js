@@ -75,7 +75,8 @@ export default class DiscussBannerScrollView extends Component {
           mainTitle={this.state.items[i].title}
           subTitle={this.state.items[i].subtitle}
 					imageURL={this.state.items[i].imageURL}
-          head_url={this.props.items[i].head_url}
+          head_url={this.state.items[i].head_url}
+          video_url={this.state.items[i].video_url}
 					onPress={this.state.items[i].onPress}
           onPressAvatar={this.state.items[i].onPressAvatar}
 				/>
@@ -84,7 +85,7 @@ export default class DiscussBannerScrollView extends Component {
 
 		if(this.state.items.length >= 3) {
       bannerItems.push(
-        <TouchableOpacity onPress={() => this.props.onPressShowAll()}>
+        <TouchableOpacity key={3} activeOpacity = {0.8} onPress={() => this.props.onPressShowAll()} >
           <Image source={require("./images/show_all@2x.png")} style={{width: 85, height: 195}}/>
         </TouchableOpacity>
       )
@@ -154,6 +155,8 @@ class BannerItem extends Component {
 	}
 
   renderCenterButton() {
+
+	  if(this.props.video_url)
     return (
       <TouchableOpacity activeOpacity = {0.8} style={this.props.videoCenterButtonStyle} onPress={() => this.props.onPress(this.props.index)}>
         <Image source={require("./images/cenerPlay@2x.png")} style={{width: RCC.Color.px(40),height: RCC.Color.px(40),backgroundColor: 'transparent'}}/>
@@ -164,7 +167,7 @@ class BannerItem extends Component {
   renderHeadImage() {
 	  if(this.props.category === "runner") {
       return(
-        <TouchableOpacity onPress={() => this.props.onPressAvatar(this.props.index)}>
+        <TouchableOpacity activeOpacity = {0.8} onPress={() => this.props.onPressAvatar(this.props.index)}>
           <Image source={this.props.head_url ? {uri: this.props.head_url} : require("./images/avator@2x.png")} style={this.props.headStyle}/>
         </TouchableOpacity>
       )
