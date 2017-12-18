@@ -33,25 +33,35 @@ export default class DiscussBannerScrollView extends Component {
 	  };
 	}
 
+  componentWillReceiveProps(nextProps) {
+      this.setState({
+        items: nextProps.items,
+      })
+  }
+
 	onScrollEndDrag = e => {
     const { contentOffset } = e.nativeEvent;
+    const {dragWidth} = this.props;
+    let length = 0;
+    if(this.state.items.length > 3) {
+      length = 3;
+    }else {
+      length = this.state.items.length;
+    }
 
-    if (contentOffset.x < (this.state.items.length) * (260+15) && (this.state.items.length > 1)) {
-	    if (contentOffset.x%(260+15) < (265+15)/2 ) {
-	    	this.refs.scrollView.scrollTo({x: contentOffset.x-contentOffset.x%(260+15), y: 0, animated: true});
+    if (contentOffset.x < (length-1) * (dragWidth+15) && length > 1 ) {
+
+	    if (contentOffset.x%( dragWidth + 15 ) < (dragWidth+15)/2 ) {
+	    	this.refs.scrollView.scrollTo({x: contentOffset.x - contentOffset.x % (dragWidth+15), y: 0, animated: true});
 	    } else {
-	    	this.refs.scrollView.scrollTo({x: (contentOffset.x-contentOffset.x%(260+15))+(260+15), y: 0, animated: true});
+	    	this.refs.scrollView.scrollTo({x: ( contentOffset.x - contentOffset.x % (dragWidth+15) ) + (dragWidth+15), y: 0, animated: true});
 	    }
-	  } else {
-	  	if (contentOffset.x >= (this.state.items.length) * (260+15) && (this.state.items.length > 1)) {
-	  		this.refs.scrollView.scrollTo({x: (this.state.items.length*(260+15) - Dimensions.get('window').width)+15, y: 0, animated: true});
-	  	} else if (this.state.items.length <= 1) {
-	  		this.refs.scrollView.scrollTo({x: 0, y: 0, animated: true});
-	  	}
 	  }
   }
 
 	render() {
+
+	  console.log("this.state.items.length", this.state.items.length);
 
 		var bannerItems = [];
 
@@ -86,12 +96,10 @@ export default class DiscussBannerScrollView extends Component {
 		if(this.state.items.length >= 3) {
       bannerItems.push(
         <TouchableOpacity key={3} activeOpacity = {0.8} onPress={() => this.props.onPressShowAll()} >
-          <Image source={require("./images/show_all@2x.png")} style={{width: 85, height: 195}}/>
+          <Image source={require("./images/show_all@2x.png")} style={this.props.showAllStyle}/>
         </TouchableOpacity>
       )
     }
-
-    console.log("this.props.image", this.props.image);
 
 		if (bannerItems.length === 0) {
 			bannerItems.push(
@@ -105,7 +113,7 @@ export default class DiscussBannerScrollView extends Component {
 
 		if (bannerItems.length === 1) {
 			bannerItems.push(
-				<View key='holder' style={[itemStyles.container, itemStyles.itemSize, itemStyles.emptyItem]}/>
+				<View key='holder' style={[itemStyles.container, itemStyles.itemSize]}/>
 			);
 		}
 
@@ -176,32 +184,12 @@ class BannerItem extends Component {
 }
 
 const itemStyles = StyleSheet.create({
-	emptyItem: {
-		backgroundColor: 'transparent',
-	},
 	container: {
 		marginRight: 15,
 	},
 	containerFirst: {
 		marginRight: 15,
 		marginLeft: 15,
-	},
-  mainTitle: {
-	  width: 260,
-	  fontSize: 15,
-    fontWeight: 'bold',
-    color: '#000000',
-    marginTop: 15
-  },
-  subTitle: {
-    width: 260,
-	  fontSize: 12,
-    color: '#666666',
-    marginTop: 10
-  },
-	image: {
-		height: 195,
-		width: 260,
 	}
 });
 
