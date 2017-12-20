@@ -53,6 +53,27 @@
         }
       },
       "/Users/zhanghuan/ReactNativeProjects/rcshop-onreact"
+    ],
+    [
+      {
+        "raw": "react-native-banner-lite@git+https://github.com/PhoenixZhanghuan/react-native-banner-lite.git",
+        "scope": null,
+        "escapedName": "react-native-banner-lite",
+        "name": "react-native-banner-lite",
+        "rawSpec": "git+https://github.com/PhoenixZhanghuan/react-native-banner-lite.git",
+        "spec": "git+https://github.com/PhoenixZhanghuan/react-native-banner-lite.git",
+        "type": "hosted",
+        "hosted": {
+          "type": "github",
+          "ssh": "git@github.com:PhoenixZhanghuan/react-native-banner-lite.git",
+          "sshUrl": "git+ssh://git@github.com/PhoenixZhanghuan/react-native-banner-lite.git",
+          "httpsUrl": "git+https://github.com/PhoenixZhanghuan/react-native-banner-lite.git",
+          "gitUrl": "git://github.com/PhoenixZhanghuan/react-native-banner-lite.git",
+          "shortcut": "github:PhoenixZhanghuan/react-native-banner-lite",
+          "directUrl": "https://raw.githubusercontent.com/PhoenixZhanghuan/react-native-banner-lite/master/package.json"
+        }
+      },
+      "/Users/zhanghuan/ReactNativeProjects/rcshop-onreact"
     ]
   ],
   "_cnpm_publish_time": 1479633518857,
@@ -93,8 +114,8 @@
   "_requiredBy": [
     "/"
   ],
-  "_resolved": "git+https://github.com/PhoenixZhanghuan/react-native-banner-lite.git#7a9d57c02ae81fdefdf275117ffb4769e6af88e1",
-  "_shasum": "9ca125bdc81a44aec7fc1766c5f288cd870760e5",
+  "_resolved": "git+https://github.com/PhoenixZhanghuan/react-native-banner-lite.git#37bf66df75a50bca8662a1900d02b76c34310ea5",
+  "_shasum": "a37886bb5057a85ebe22b7355c22951d963d8e55",
   "_shrinkwrap": null,
   "_spec": "react-native-banner-lite@git+https://github.com/PhoenixZhanghuan/react-native-banner-lite.git",
   "_where": "/Users/zhanghuan/ReactNativeProjects/rcshop-onreact",

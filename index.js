@@ -51,7 +51,7 @@ export default class DiscussBannerScrollView extends Component {
 
     if (contentOffset.x < (length-1) * (dragWidth+15) && length > 1 ) {
 
-	    if (contentOffset.x%( dragWidth + 15 ) < (dragWidth+15)/2 ) {
+	    if (contentOffset.x%( dragWidth + 15 ) < (dragWidth+15)/4 ) {
 	    	this.refs.scrollView.scrollTo({x: contentOffset.x - contentOffset.x % (dragWidth+15), y: 0, animated: true});
 	    } else {
 	    	this.refs.scrollView.scrollTo({x: ( contentOffset.x - contentOffset.x % (dragWidth+15) ) + (dragWidth+15), y: 0, animated: true});
@@ -60,8 +60,6 @@ export default class DiscussBannerScrollView extends Component {
   }
 
 	render() {
-
-	  console.log("this.state.items.length", this.state.items.length);
 
 		var bannerItems = [];
 
