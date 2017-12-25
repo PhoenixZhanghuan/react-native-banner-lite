@@ -39,24 +39,49 @@ export default class DiscussBannerScrollView extends Component {
       })
   }
 
-	onScrollEndDrag = e => {
+  onScrollBeginDrag = e => {
     const { contentOffset } = e.nativeEvent;
+    this.startDragWidth = contentOffset.x;
+  }
+
+	onScrollEndDrag = e => {
+    const {contentOffset} = e.nativeEvent;
+    this.endDragWidth = contentOffset.x;
+    var oriageScrollWidth = e.nativeEvent.contentSize.width
     const {dragWidth} = this.props;
-    let length = 0;
-    if(this.state.items.length > 3) {
-      length = 3;
-    }else {
-      length = this.state.items.length;
+
+    if (this.endDragWidth <= oriageScrollWidth && (1 < this.state.items.length)) {
+
+      if (this.startDragWidth < this.endDragWidth) {
+        if (this.endDragWidth % (dragWidth + 15) < (dragWidth + 15) / 5) {
+          this.refs.scrollView.scrollTo({
+            x: this.endDragWidth - this.endDragWidth % (dragWidth + 15),
+            y: 0,
+            animated: true
+          });
+        } else {
+          this.refs.scrollView.scrollTo({
+            x: (this.endDragWidth - this.endDragWidth % (dragWidth + 15)) + (dragWidth + 15),
+            y: 0,
+            animated: true
+          });
+        }
+      } else {
+        if (this.endDragWidth % (dragWidth + 15) < (dragWidth + 15) / 5 * 4) {
+          this.refs.scrollView.scrollTo({
+            x: this.endDragWidth - this.endDragWidth % (dragWidth + 15),
+            y: 0,
+            animated: true
+          });
+        } else {
+          this.refs.scrollView.scrollTo({
+            x: (this.endDragWidth - this.endDragWidth % (dragWidth + 15)) + (dragWidth + 15),
+            y: 0,
+            animated: true
+          });
+        }
+      }
     }
-
-    if (contentOffset.x < (length-1) * (dragWidth+15) && length > 1 ) {
-
-	    if (contentOffset.x%( dragWidth + 15 ) < (dragWidth+15)/4 ) {
-	    	this.refs.scrollView.scrollTo({x: contentOffset.x - contentOffset.x % (dragWidth+15), y: 0, animated: true});
-	    } else {
-	    	this.refs.scrollView.scrollTo({x: ( contentOffset.x - contentOffset.x % (dragWidth+15) ) + (dragWidth+15), y: 0, animated: true});
-	    }
-	  }
   }
 
 	render() {
@@ -120,6 +145,7 @@ export default class DiscussBannerScrollView extends Component {
         style={this.props.style}
 				ref='scrollView'
 				centerContent={false}
+        onScrollBeginDrag={this.onScrollBeginDrag}
 				onScrollEndDrag={this.onScrollEndDrag}
 				contentContainerStyle={scrollViewStyles.scrollView}
 				horizontal={true}
