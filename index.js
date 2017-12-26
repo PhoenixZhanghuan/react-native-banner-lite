@@ -47,12 +47,17 @@ export default class DiscussBannerScrollView extends Component {
 	onScrollEndDrag = e => {
     const {contentOffset} = e.nativeEvent;
     this.endDragWidth = contentOffset.x;
-    var oriageScrollWidth = e.nativeEvent.contentSize.width
+    let contentSizeWidth = e.nativeEvent.contentSize.width
+    let oriageScrollWidth = e.nativeEvent.layoutMeasurement.width;
     const {dragWidth} = this.props;
 
-    if (this.endDragWidth <= oriageScrollWidth && (1 < this.state.items.length)) {
+    if ((this.endDragWidth > contentSizeWidth - oriageScrollWidth) || ( this.state.items.length <= 1)) {
+      return;
+    }
 
-      if (this.startDragWidth < this.endDragWidth) {
+    // 左划
+    if (this.startDragWidth < this.endDragWidth) {
+
         if (this.endDragWidth % (dragWidth + 15) < (dragWidth + 15) / 5) {
           this.refs.scrollView.scrollTo({
             x: this.endDragWidth - this.endDragWidth % (dragWidth + 15),
@@ -66,7 +71,10 @@ export default class DiscussBannerScrollView extends Component {
             animated: true
           });
         }
-      } else {
+
+        // 右划
+    } else {
+
         if (this.endDragWidth % (dragWidth + 15) < (dragWidth + 15) / 5 * 4) {
           this.refs.scrollView.scrollTo({
             x: this.endDragWidth - this.endDragWidth % (dragWidth + 15),
@@ -80,9 +88,9 @@ export default class DiscussBannerScrollView extends Component {
             animated: true
           });
         }
-      }
     }
-  }
+	}
+
 
 	render() {
 
