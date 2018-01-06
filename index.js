@@ -10,9 +10,8 @@ import {
   Dimensions,
   Text,
   Image,
-  TouchableOpacity,
+  TouchableOpacity, ListView,
 } from 'react-native';
-import RCC from "../../app/model/RCConst";
 
 export default class DiscussBannerScrollView extends Component {
 
@@ -28,15 +27,15 @@ export default class DiscussBannerScrollView extends Component {
 	constructor(props) {
 	  super(props);
 
-	  this.state = {
-	  	items: this.props.items,
-	  };
+    this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.dataSource = this.dataSource.cloneWithRows(this.props.items);
+    this.list = this.props.items;
+
 	}
 
   componentWillReceiveProps(nextProps) {
-      this.setState({
-        items: nextProps.items,
-      })
+      this.dataSource = this.dataSource.cloneWithRows(nextProps.items);
+      this.list = nextProps.items;
   }
 
   onScrollBeginDrag = e => {
@@ -52,7 +51,7 @@ export default class DiscussBannerScrollView extends Component {
     const {dragWidth} = this.props;
     let width = dragWidth + 15;
 
-    if ((this.endDragWidth > contentSizeWidth-oriageScrollWidth) || ( this.state.items.length <= 1)) {
+    if ((this.endDragWidth > contentSizeWidth-oriageScrollWidth) || ( this.list.length <= 1)) {
       return;
     }
 
@@ -94,19 +93,27 @@ export default class DiscussBannerScrollView extends Component {
 
 
 	render() {
+		return(
+			<ListView
+        style={this.props.style}
+				ref='scrollView'
+				centerContent={false}
+        dataSource= {this.dataSource}
+        renderRow={this.renderItem.bind(this)}
+        onScrollBeginDrag={this.onScrollBeginDrag}
+				onScrollEndDrag={this.onScrollEndDrag}
+				horizontal={true}
+				showsHorizontalScrollIndicator={false}
+			/>
 
-		var bannerItems = [];
+		);
+	}
 
-		for (let i = 0; i < this.state.items.length; i++) {
-
-		  if(i === 3) {
-		    break;
-      }
-
-			bannerItems.push(
-				<BannerItem
-					key={"bannerItem"+i}
-					index={i}
+  renderItem(item, section, row) {
+	  if(row < "5") {
+      return (
+        <BannerItem
+          index={parseInt(row)}
           allowStyle={this.props.allow}
           videoCenterButtonStyle={this.props.videoCenterButton}
           mainTitleStyle={this.props.mainTitle}
@@ -114,56 +121,27 @@ export default class DiscussBannerScrollView extends Component {
           imageStyle={this.props.image}
           headStyle={this.props.headStyle}
           category={this.props.category}
-          mainTitle={this.state.items[i].title}
-          subTitle={this.state.items[i].subtitle}
-					imageURL={this.state.items[i].imageURL}
-          head_url={this.state.items[i].head_url}
-          video_url={this.state.items[i].video_url}
-					onPress={this.state.items[i].onPress}
-          onPressAvatar={this.state.items[i].onPressAvatar}
-				/>
-			);
-		}
-
-		if(this.state.items.length >= 3) {
-      bannerItems.push(
+          mainTitle={item.title}
+          subTitle={item.subtitle}
+          imageURL={item.imageURL}
+          head_url={item.head_url}
+          video_url={item.video_url}
+          onPress={item.onPress}
+          onPressAvatar={item.onPressAvatar}
+        />
+      )
+    }else if(row === "5") {
+	    return (
         <TouchableOpacity key={3} activeOpacity = {0.8} onPress={() => this.props.onPressShowAll()} >
           <Image source={require("./images/show_all@2x.png")} style={this.props.showAllStyle}/>
         </TouchableOpacity>
       )
+    }else {
+	    return (
+	      <View/>
+      )
     }
-
-		if (bannerItems.length === 0) {
-			bannerItems.push(
-				<View key='empty' style={[itemStyles.containerFirst, itemStyles.itemSize]}>
-					<Text>
-						这里什么也没有
-					</Text>
-				</View>
-			);
-		}
-
-		if (bannerItems.length === 1) {
-			bannerItems.push(
-				<View key='holder' style={[itemStyles.container, itemStyles.itemSize]}/>
-			);
-		}
-
-		return(
-			<ScrollView
-        style={this.props.style}
-				ref='scrollView'
-				centerContent={false}
-        onScrollBeginDrag={this.onScrollBeginDrag}
-				onScrollEndDrag={this.onScrollEndDrag}
-				contentContainerStyle={scrollViewStyles.scrollView}
-				horizontal={true}
-				showsHorizontalScrollIndicator={false}
-			>
-				{bannerItems}
-			</ScrollView>
-		);
-	}
+  }
 
 }
 
@@ -175,7 +153,7 @@ class BannerItem extends Component {
 
 	render() {
 		return (
-			<TouchableOpacity style={(this.props.index===0)?itemStyles.containerFirst:itemStyles.container} onPress={() => this.props.onPress(this.props.index)}>
+			<TouchableOpacity activeOpacity = {0.8} style={(this.props.index===0)?itemStyles.containerFirst:itemStyles.container} onPress={() => this.props.onPress(this.props.index)}>
 				<Image
 	        style={this.props.imageStyle}
 	        source={{uri: this.props.imageURL}}
@@ -200,7 +178,7 @@ class BannerItem extends Component {
 	  if(this.props.video_url)
     return (
       <TouchableOpacity activeOpacity = {0.8} style={this.props.videoCenterButtonStyle} onPress={() => this.props.onPress(this.props.index)}>
-        <Image source={require("./images/cenerPlay@2x.png")} style={{width: RCC.Color.px(40),height: RCC.Color.px(40),backgroundColor: 'transparent'}}/>
+        <Image source={require("./images/cenerPlay@2x.png")} style={{width: 40,height: 40,backgroundColor: 'transparent'}}/>
       </TouchableOpacity>
     )
   }
