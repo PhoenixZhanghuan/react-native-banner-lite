@@ -10,7 +10,8 @@ import {
   Dimensions,
   Text,
   Image,
-  TouchableOpacity, ListView,
+  TouchableOpacity,
+  ListView,
 } from 'react-native';
 
 export default class DiscussBannerScrollView extends Component {
@@ -28,8 +29,8 @@ export default class DiscussBannerScrollView extends Component {
 	  super(props);
 
     this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    this.dataSource = this.dataSource.cloneWithRows(this.props.items);
-    this.list = this.props.items;
+    this.dataSource = this.dataSource.cloneWithRows(props.items);
+    this.list = props.items;
 
 	}
 
@@ -104,6 +105,7 @@ export default class DiscussBannerScrollView extends Component {
 				onScrollEndDrag={this.onScrollEndDrag}
 				horizontal={true}
 				showsHorizontalScrollIndicator={false}
+        renderFooter={this.renderFooter.bind(this)}
 			/>
 
 		);
@@ -139,6 +141,14 @@ export default class DiscussBannerScrollView extends Component {
     }else {
 	    return (
 	      <View/>
+      )
+    }
+  }
+
+  renderFooter() {
+	  if(this.list.length < 5) {
+	    return (
+        <View style={this.props.showAllStyle}/>
       )
     }
   }
