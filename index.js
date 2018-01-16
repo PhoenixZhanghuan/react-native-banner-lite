@@ -135,12 +135,6 @@ export default class DiscussBannerScrollView extends Component {
           onPressAvatar={item.onPressAvatar}
         />
       )
-    }else if(row === "5") {
-	    return (
-        <TouchableOpacity key={3} activeOpacity = {0.8} onPress={() => this.props.onPressShowAll()} >
-          <Image source={require("./images/show_all@2x.png")} style={this.props.showAllStyle}/>
-        </TouchableOpacity>
-      )
     }else {
 	    return (
 	      <View/>
@@ -149,8 +143,14 @@ export default class DiscussBannerScrollView extends Component {
   }
 
   renderFooter() {
-	  if(this.list.length < 5) {
-	    return (
+	  if(this.list.length >= 5) {
+      return (
+        <TouchableOpacity key={3} activeOpacity = {0.8} onPress={() => this.props.onPressShowAll()} >
+          <Image source={require("./images/show_all@2x.png")} style={this.props.showAllStyle}/>
+        </TouchableOpacity>
+      )
+    }else {
+      return (
         <View style={this.props.showAllStyle}/>
       )
     }
