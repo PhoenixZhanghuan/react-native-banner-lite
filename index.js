@@ -14,6 +14,9 @@ import {
   ListView,
 } from 'react-native';
 
+import RCC from "../../app/model/RCConst";
+import RCImage from  "../../app/component/RCImage"
+
 export default class DiscussBannerScrollView extends Component {
 
 	static propTypes = {
@@ -164,13 +167,14 @@ class BannerItem extends Component {
 	render() {
 		return (
 			<TouchableOpacity activeOpacity = {0.8} style={(this.props.index===0)?itemStyles.containerFirst:itemStyles.container} onPress={() => this.props.onPress(this.props.index)}>
-				<Image
-	        style={this.props.imageStyle}
-	        source={{uri: this.props.imageURL}}
+        <RCImage
+          uri={this.props.imageURL}
+          style={this.props.imageStyle}
         >
-          <Image source={require("./images/small_arrow@2x.png")} style={this.props.allowStyle}/>
+          <Image source={require("./images/small_arrow@2x.png")} style={this.props.allowStyle} />
           {this.renderCenterButton()}
-        </Image>
+        </RCImage>
+
         <View style={{flexDirection: "row"}}>
           {this.renderHeadImage()}
           <View>
