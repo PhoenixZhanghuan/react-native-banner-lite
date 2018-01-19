@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 
 import RCC from "../../app/model/RCConst";
-import RCImage from  "../../app/component/RCImage"
+import RCImage from  "../../app/shop/component/RCImage"
 
 export default class DiscussBannerScrollView extends Component {
 
@@ -34,7 +34,7 @@ export default class DiscussBannerScrollView extends Component {
     this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.dataSource = this.dataSource.cloneWithRows(props.items);
     this.list = props.items;
-
+    this.rows = {};
 	}
 
   componentWillReceiveProps(nextProps) {
@@ -109,15 +109,28 @@ export default class DiscussBannerScrollView extends Component {
 				horizontal={true}
 				showsHorizontalScrollIndicator={false}
         renderFooter={this.renderFooter.bind(this)}
+        onChangeVisibleRows={this.onChangeVisibleRows.bind(this)}
 			/>
 
 		);
 	}
 
+  /**
+   *
+   * @param visibleRows
+   * @param changedRows
+   */
+  onChangeVisibleRows(visibleRows, changedRows){
+    for(let key in changedRows.s1) {
+      this.rows[key].setVisibleRows(changedRows.s1[key]);
+    }
+  };
+
   renderItem(item, section, row) {
 	  if(row < "5") {
       return (
         <BannerItem
+          ref={el => this.rows[row] = el}
           index={parseInt(row)}
           allowStyle={this.props.allow}
           videoCenterButtonStyle={this.props.videoCenterButton}
@@ -162,12 +175,26 @@ class BannerItem extends Component {
 
 	constructor(props) {
 	  super(props);
-	}
+
+    this.state = {
+      visible: false
+    }
+
+  }
+
+  setVisibleRows(visible) {
+
+    this.setState({
+      visible: visible
+    })
+
+  }
 
 	render() {
 		return (
 			<TouchableOpacity activeOpacity = {0.8} style={(this.props.index===0)?itemStyles.containerFirst:itemStyles.container} onPress={() => this.props.onPress(this.props.index)}>
         <RCImage
+          visible={this.state.visible}
           uri={this.props.imageURL}
           style={this.props.imageStyle}
         >
